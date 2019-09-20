@@ -3,9 +3,59 @@ class Board
   BOARD_SIZE = 5
   PEG_MARKER = '•'
   HOLE_MARKER = 'o'
-
+  attr_reader :board
   def initialize
     @board = create_initial_board
+  end
+
+  def can_jump?(start,landing)
+    start_x = start[0]
+    landing_x = landing[0]
+    total_x = start_x - landing_x
+    start_y = start[1]
+    landing_y = landing[1]
+    total_y = start_y - landing_y
+    return false unless total_x.abs == 2 or total_y.abs == 2
+    true 
+  end
+  #check after code is completed to see if left? method is necessary
+  def left?(start,landing)
+    start_x = start[1]
+    landing_x = landing[1]
+    total_x = start_x - landing_x
+    return true if total_x == 2
+    false
+  end
+
+  def right?(start,landing)
+    start_x = start[1]
+    landing_x = landing[1]
+    total_x = start_x - landing_x
+    return true if total_x == -2
+    false
+  end
+
+  def left_or_right(start, landing)
+    right?(start, landing) ? "right" : "left"
+  end
+
+  def horizontal?(start, landing)
+    start_x = start[0]
+    landing_x = landing[0]
+    return true if start_x == landing_x 
+    false
+  end
+
+  def diagonal?(start, landing)
+    return true unless horizontal?(start, landing)
+    false
+  end
+
+  def up_or_down?(start, landing)
+    start_x = start[0]
+    landing_x = landing[0]
+    total_x = start_x - landing_x
+    total_x == 2 ? "up" : "down"
   end
 
   def create_initial_board
@@ -65,4 +115,4 @@ class Board
 
 end
 
-Board.new.print_board
+#Board.new.print_board
